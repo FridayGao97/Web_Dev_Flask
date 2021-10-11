@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<head>
+    <title>User Main Page</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+  <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>  -->
+
+    <style>
+        ul.bar {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333333;
+          display: inline-flex;
+          width: 100%;
+        }
+        
+        #menu li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 24px;
+          padding-left: 40px;
+          padding-right: 40px;
+          text-decoration: none;
+        }
+        
+        #menu li a:hover {
+          background-color: #111111;
+        }
+
+        body {
+        background: #9053c7;
+        background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+        background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+        background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+        background: linear-gradient(-135deg, #c850c0, #4158d0);
+
+        }
+        div.mainpage100 {
+            width: 960px;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 30px 80px 40px 80px;
+            margin: auto;
+
+        }
+        div.element{
+            width: 100%;
+        }  
+    </style>
+
+</head>
+
+
+<html>
+    <body>
+    <div class="mainpage100">
+        <div class="element">
+        <h1> Hello {{ username }} </h1>
+        </div>
+        <div class="element">
+        <ul class=bar id="menu">
+            <li ><a href="{{url_for('bdconfigure', email=email)}}">Configure User Data</a></li>
+            <li ><a href="#history">History</a></li>
+            <li ><a href="#weight">Weight Chart</a></li>
+            <li ><a href="#BMI">BMI Chart</a></li>
+            <li ><a href="#WHR">WHR Chart</a></li>
+            <li ><a href="{{url_for('change_psw')}}">Change Passwords</a></li>
+            <li ><a href="{{url_for('main')}}">Log Out</a></li> 
+            
+        </ul>
+        </div>
+
+        <div class="element"><hr></div>
+        
+        <div class="element">
+        <table id="history">
+            <thead>
+                <th>Time</th>
+                <th>User_Name</th>
+                <th>BMI</th>
+                <th>WHR</th>
+                <th>Heart_Rate</th>
+                <th>Blood_Pressure</th>
+                <th>Daily_Steps</th>
+                <th>Calorie</th>
+            </thead>
+
+            <tbody>
+                
+                {% for row in user_data %}
+                    <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
+
+                    </tr>
+                {% endfor %}
+
+              </tbody>
+        </table>
+        </div>
+        
+        <div class="element"><br><hr><br></div>
+
+        <div class="element" id="weight">
+        <center>
+            <h3>Weight(kg) vs. Time</h3>
+        
+            <canvas id="weightchart" width="600" height="400"></canvas>
+            <script>
+        
+              // chart data
+                var barData = {
+                    labels : [
+                    {% for item in weightlabels %}
+                        "{{ item }}",
+                    {% endfor %}
+                    ],
+            
+                    datasets : [{
+                        fillColor: "rgba(151,187,205,0.2)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        bezierCurve : false,
+                        data : [
+                            {% for item in weightvalues %}
+                                {{ item }},
+                                {% endfor %}]
+                    }
+                    ]
+                }
+            
+                Chart.defaults.global.animationSteps = 50;
+                Chart.defaults.global.tooltipYPadding = 16;
+                Chart.defaults.global.tooltipCornerRadius = 0;
+                Chart.defaults.global.tooltipTitleFontStyle = "normal";
+                Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+                Chart.defaults.global.animationEasing = "easeOutBounce";
+                Chart.defaults.global.responsive = false;
+                Chart.defaults.global.scaleLineColor = "black";
+                Chart.defaults.global.scaleFontSize = 16;
+            
+                // get chart canvas
+                var mychart = document.getElementById("weightchart").getContext("2d");
+            
+                steps = 5
+                max = {{maxweight}}
+                // draw chart
+                var LineChartDemo = new Chart(mychart).Line(barData, {
+                    scaleOverride: true,
+                    scaleSteps: steps,
+                    scaleStepWidth: Math.ceil(max / steps),
+                    scaleStartValue: 0,
+                    scaleShowVerticalLines: true,
+                    scaleShowGridLines : true,
+                    barShowStroke : true,
+                    scaleShowLabels: true,
+                    bezierCurve: false,
+                });
+        
+            </script>
+        </center>
+        </div>
+          
+        <div class="element"><br><hr><br></div>
+
+        <div class="element" id="BMI">
+        <center>
+            <h3>BMI vs. Time</h3>
+
+            <canvas id="bmi_chart" width="600" height="400"></canvas>
+            <script>
+    
+            // chart data
+                var barData = {
+                    labels : [
+                    {% for item in BMIlabels %}
+                        "{{ item }}",
+                    {% endfor %}
+                    ],
+            
+                    datasets : [{
+                        fillColor: "rgba(151,187,205,0.2)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        bezierCurve : false,
+                        data : [
+                            {% for item in BMIvalues %}
+                                {{ item }},
+                                {% endfor %}]
+                    }
+                    ]
+                }
+            
+                Chart.defaults.global.animationSteps = 50;
+                Chart.defaults.global.tooltipYPadding = 16;
+                Chart.defaults.global.tooltipCornerRadius = 0;
+                Chart.defaults.global.tooltipTitleFontStyle = "normal";
+                Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+                Chart.defaults.global.animationEasing = "easeOutBounce";
+                Chart.defaults.global.responsive = false;
+                Chart.defaults.global.scaleLineColor = "black";
+                Chart.defaults.global.scaleFontSize = 16;
+            
+                // get chart canvas
+                var mychart = document.getElementById("bmi_chart").getContext("2d");
+            
+                steps = 5
+                max = 30
+                // draw chart
+                var LineChartDemo = new Chart(mychart).Line(barData, {
+                    scaleOverride: true,
+                    scaleSteps: steps,
+                    scaleStepWidth: Math.ceil(max / steps),
+                    scaleStartValue: 0,
+                    scaleShowVerticalLines: true,
+                    scaleShowGridLines : true,
+                    barShowStroke : true,
+                    scaleShowLabels: true,
+                    bezierCurve: false,
+                });
+    
+            </script>
+        </center>
+        </div>
+
+        <div class="element"><br><hr><br></div>
+
+        <div class="element" id="WHR">
+        <center>
+            <h3>WHR vs. Time</h3>
+        
+            <canvas id="whr_chart" width="600" height="400"></canvas>
+            <script>
+        
+            // chart data
+                var barData = {
+                    labels : [
+                    {% for item in WHRlabels %}
+                        "{{ item }}",
+                    {% endfor %}
+                    ],
+            
+                    datasets : [{
+                        fillColor: "rgba(151,187,205,0.2)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        bezierCurve : false,
+                        data : [
+                            {% for item in WHRvalues %}
+                                {{ item }},
+                                {% endfor %}]
+                    }
+                    ]
+                }
+            
+                Chart.defaults.global.animationSteps = 50;
+                Chart.defaults.global.tooltipYPadding = 16;
+                Chart.defaults.global.tooltipCornerRadius = 0;
+                Chart.defaults.global.tooltipTitleFontStyle = "normal";
+                Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+                Chart.defaults.global.animationEasing = "easeOutBounce";
+                Chart.defaults.global.responsive = false;
+                Chart.defaults.global.scaleLineColor = "black";
+                Chart.defaults.global.scaleFontSize = 16;
+            
+                // get chart canvas
+                var mychart = document.getElementById("whr_chart").getContext("2d");
+            
+                steps = 5
+                max = 1.5
+                // draw chart
+                var LineChartDemo = new Chart(mychart).Line(barData, {
+                    scaleOverride: true,
+                    scaleSteps: steps,
+                    scaleStepWidth: max / steps,
+                    scaleStartValue: 0,
+                    scaleShowVerticalLines: true,
+                    scaleShowGridLines : true,
+                    barShowStroke : true,
+                    scaleShowLabels: true,
+                    bezierCurve: false,
+                });
+        
+            </script>
+        </center>
+        </div>
+
+
+        
+
+
+    </div>
+    <body>    
+</html>

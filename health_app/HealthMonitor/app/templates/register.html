@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Register Page</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+	<style>
+	body {
+		background: #9053c7;
+		background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+		background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+		background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+		background: linear-gradient(-135deg, #c850c0, #4158d0);
+
+		}
+	div.mainpage100 {
+		width: max-content;
+		background: #fff;
+		border-radius: 10px;
+		overflow: hidden;
+
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		padding: 30px 80px 40px 80px;
+		margin: auto;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		clear:both;
+    	float:left;
+
+	}
+	div.element{
+        width: 100%;
+    }  
+	</style>
+</head>
+<body>
+
+    <div class="mainpage100">
+		<div class="element">
+			<h2>Create a new account</h2>
+			<br>
+		</div>
+		<div class="element">
+		{% if message %}
+			<P>Success: {{message}}</P>
+			<br>
+			<br>
+			<a href="{{url_for('main')}}">Start to Log In</a>
+			<br>
+		
+		{% else %}
+			<form action="{{url_for('user_register_save')}}" method="post">
+			
+			<div class="wrap-input100 validate-input">
+			<label>Name</label>
+			<input class="input100" type='text' name='username' value='{{username if username != None}}'>
+			</div>
+
+			<div class="wrap-input100 validate-input">
+			<label>Email</label>
+			<input class="input100" type='text' name='email' value='{{email if email != None}}'>
+			</div>
+
+			<div class="wrap-input100 validate-input">
+			<label>Password</label>
+			<input class="input100" type='text' name='password' value='{{password if password != None}}'>
+			</div>
+
+			<div class="container-login100-form-btn"><input class="login100-form-btn" type="submit" value="Submit"></div>
+
+			</form> 
+		{% endif %}
+		</div>
+
+    </div>
+    
+
+
+
+
+    
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+    <script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+    <script src="vendor/tilt/tilt.jquery.min.js"></script>
+    <script >
+        $('.js-tilt').tilt({
+            scale: 1.1
+        })
+    </script>
+<!--===============================================================================================-->
+    <script src="js/main.js"></script>
+
+</body>
+</html>
+

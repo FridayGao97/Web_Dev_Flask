@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Change Your Passwords</title>
+    <!--===============================================================================================-->	
+	    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->	
+        <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="css/util.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!--===============================================================================================-->
+    <style>
+        body {
+            background: #9053c7;
+            background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+            background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+            background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+            background: linear-gradient(-135deg, #c850c0, #4158d0);
+
+            }
+        div.mainpage100 {
+            width: 960px;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 30px 40px 40px 40px;
+            margin: auto;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            clear:both;
+            float:left;
+
+        }
+        div.element{
+            width: 100%;
+        }
+    </style>
+</head>
+<html>
+  <body>
+        <div class="mainpage100">
+            <div class="element">
+                <h2>Change Password</h2>
+                <br>
+            </div>
+            
+            <div class="element">
+            <form method = 'post' action = "{{url_for('change_psw_save')}}">
+
+                <div class="wrap-input100 validate-input">
+                    <label>User Email</label>
+                    <input class="input100" type='text' name='email' value='{{email if email != None}}'>
+                </div>
+                <br>
+
+                <div class="wrap-input100 validate-input">
+                <label>Old Password</label>
+                <input class="input100" type='text' name='oldpassword' value='{{oldpassword if oldpassword != None}}'>
+                </div>
+                <br>
+
+                <div class="wrap-input100 validate-input">
+                <label>New Password</label>
+                <input class="input100" type='text' name='new1password' value='{{new1password if new1password != None}}'>
+                </div>
+                <br>
+
+                <div class="wrap-input100 validate-input">
+                <label>Confirm New Password</label>
+                <input class="input100" type='text' name='new2password' value='{{new2password if new2password != None}}'>
+                </div>
+                <br>
+                
+                <div class="container-login100-form-btn">
+                    <input class="login100-form-btn" type="submit" value="Submit">
+                </div>
+
+            </form>
+            </div>
+            
+        </div>
+
+<!--===============================================================================================-->	
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+    <script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+    <script src="vendor/tilt/tilt.jquery.min.js"></script>
+    <script >
+        $('.js-tilt').tilt({
+            scale: 1.1
+        })
+    </script>
+<!--===============================================================================================-->
+    <script src="js/main.js"></script>
+</body>
+</html>
